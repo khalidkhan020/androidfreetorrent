@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+	android:id="@+id/widget39"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:fitsSystemWindows="true">
+	<ProgressBar 
+		style="?android:attr/progressBarStyleHorizontal" 
+		android:id="@+id/Peers"  
+		android:fadingEdge="horizontal|vertical" 
+		android:layout_x="125px" 
+		android:max="10" 
+		android:layout_y="99998px" 
+		android:layout_height="0px" 
+		android:layout_width="0px">
+	</ProgressBar>
+	<ProgressBar 
+		style="?android:attr/progressBarStyleHorizontal" 
+		android:id="@+id/ProgressBar"  
+		android:layout_width="fill_parent" 
+		android:fadingEdge="horizontal|vertical" 
+		android:text="Progress" 
+		android:layout_y="0px" 
+		android:layout_height="76px">
+	</ProgressBar>
+	<TextView 
+		android:id="@+id/TextView01" 
+		android:layout_height="wrap_content" 
+		android:layout_width="fill_parent" 
+		android:text="filesize" 
+		android:layout_x="33px" 
+		android:layout_y="120px">
+	</TextView>
+	<TextView 
+		android:id="@+id/TextView03" 
+		android:layout_height="wrap_content" 
+		android:layout_width="190px" 
+		android:layout_x="33px" 
+		android:text="Connecting to Peers..." 
+		android:layout_y="162px">
+	</TextView>
+	<TextView 
+		android:id="@+id/TextView02" 
+		android:layout_height="wrap_content"  
+		android:layout_width="wrap_content" 
+		android:layout_x="33px" 
+		android:text="Preparing Download.." 
+		android:layout_y="180px">
+	</TextView>
+	<Button 
+		android:id="@+id/Button01" 
+		android:layout_height="wrap_content" 
+		android:bufferType="normal" 
+		android:cursorVisible="true" 
+		android:text="Cancel Download" 
+		android:layout_x="0px" 
+		android:layout_width="320px" 
+		android:layout_y="340px">
+	</Button>
+	<TextView 
+		android:id="@+id/TextView04" 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content" 
+		android:layout_y="82px" 
+		android:layout_x="33px" 
+		android:text=" Initializing  ">
+	</TextView>
+	<ProgressBar 
+		style="?android:attr/progressBarStyleHorizontal" 
+		android:id="@+id/Rate"  
+		android:fadingEdge="horizontal|vertical" 
+		android:max="10" android:layout_y="145px" 
+		android:layout_x="95px" 
+		android:layout_height="0px" 
+		android:layout_width="0px">
+	</ProgressBar>
+	<TextView 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content" 
+		android:layout_x="33px"
+	  	android:id="@+id/pieces" 
+	 	android:text="Getting Pieces " 
+	 	android:layout_y="200px">
+	</TextView>
+	<TextView 
+		android:id="@+id/TextView06" 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content" 
+		android:layout_y="32px" 
+		android:layout_x="15px" 
+		android:text="Connecting...">
+	</TextView>
+</AbsoluteLayout>
+

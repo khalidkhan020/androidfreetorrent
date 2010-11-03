@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--This layout is for the notification bar while downloading.-->
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:padding="5dp"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<ImageView
+		android:id="@+id/status_icon"
+		android:layout_width="wrap_content"
+		android:layout_height="fill_parent"
+		android:src="@drawable/icon"
+		android:layout_alignParentLeft="true" />
+<!--	<RelativeLayout-->
+<!--		xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--		android:padding="10px"-->
+<!--		android:layout_width="fill_parent"-->
+<!--		android:layout_height="fill_parent"-->
+<!--		android:layout_toRightOf="@id/status_icon">-->
+		<TextView
+			android:id="@+id/status_text"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentTop="true"
+			android:layout_toRightOf="@id/status_icon"
+			android:text="Download progress"
+			android:textColor="#000"
+			android:textSize="14sp"
+			android:textStyle="bold" 
+			/>
+		<ProgressBar
+			android:id="@+id/status_progress"
+			android:layout_alignParentRight="true"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/status_text"
+			android:layout_toRightOf="@id/status_icon"
+			android:progressDrawable="@android:drawable/progress_horizontal"
+			android:indeterminate="false"
+			android:indeterminateOnly="false" /> 
+<!--	</RelativeLayout>-->
+</RelativeLayout>
+	
+	

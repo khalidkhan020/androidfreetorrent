@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, Freetorrent!</string>
+    <string name="app_name">FreeTorrent</string>
+<string name="no_files">Empty</string>
+<string name="to_top">[Up a level]</string>
+<string name="exit_menu">Exit</string>
+<string name="help">\t Found a bug? Please submit a bug report (drakewill@gmail.com) so I can fix it. It can take a couple days for user comments to appear on the Market, email will get results faster. \n\n
+\t For best results, download torrents one at a time, and at times where you will not use your phone for other tasks. A big, busy torrent can use up a lot of your phone\'s processing power and battery very quickly.\n\n
+\t This program is distributed under the GNU GPL 2.0. Source code is available at the developer\'s website. \n\n
+\t All icons appearing in this app are used under a Creative Commons license.</string>
+<string name="help_menu">Quick Help</string>
+</resources>
