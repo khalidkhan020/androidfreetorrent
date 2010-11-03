@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+android:id="@+id/widget39"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:fitsSystemWindows="true">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<EditText android:id="@+id/EditText01" android:layout_height="wrap_content" android:layout_y="50px" android:layout_width="fill_parent" ></EditText>
+<Button android:id="@+id/Button01" android:layout_height="wrap_content" android:layout_y="100px" android:text="Search" android:layout_width="200px" android:layout_x="50px" android:visibility="visible"></Button>
+
+<TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_y="15px" android:text="Search for a torrent on the web:" android:textSize="8pt"></TextView>
+</AbsoluteLayout>
