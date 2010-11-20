@@ -371,6 +371,7 @@ public class PeerUpdater extends Thread
     {
         try 
         {
+        	Log.d("FreeTorrent", "contactTracker started");
         	int size=torrent.announceURLS.size();
         	
         	if(size == 0)
@@ -400,12 +401,15 @@ public class PeerUpdater extends Thread
                                  "&downloaded=" + dl + "&uploaded=" + ul +
                                  "&left=" + left + "&numwant=100&compact=1" + event);
 
+            Log.d("FreeTorrent", "connectTracker attempting to communicate with " + currentURL);            
             URLConnection uc = source.openConnection();
+            uc.setConnectTimeout(3000); //11-20-10 DW - on WiMax, this freezes up and never returns.
             InputStream is = uc.getInputStream();
             BufferedInputStream bis = new BufferedInputStream(is);
 
             // Decode the tracker bencoded response
             Map m = BDecoder.decode(bis);
+            Log.d("FreeTorrent", "connectTracker received response from " + currentURL);
             bis.close();
             is.close();
 
@@ -413,18 +417,22 @@ public class PeerUpdater extends Thread
         } 
         catch (MalformedURLException murle) 
         {
+        	Log.d("FreeTorrent", "contactTracker failed: " + murle.getMessage() + " " + murle.getCause());
             this.fireUpdateFailed(2, "Tracker URL is not valid... Check if your data is correct and try again");
         } 
         catch (UnknownHostException uhe) 
         {
+        	Log.d("FreeTorrent", "contactTracker failed: " + uhe.getMessage() + " " + uhe.getCause());
             this.fireUpdateFailed(3, "Tracker not available... Retrying...");
         } 
         catch (IOException ioe) 
         {
+        	Log.d("FreeTorrent", "contactTracker failed: " + ioe.getMessage() + " " + ioe.getCause());
             this.fireUpdateFailed(4, "Tracker unreachable... Retrying");
         } 
         catch (Exception e) 
         {
+        	Log.d("FreeTorrent", "contactTracker failed: " + e.getMessage() + " " + e.getCause());
             this.fireUpdateFailed(5, "Internal error" +e);
         }
         return null;
