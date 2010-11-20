@@ -32,7 +32,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RemoteViews;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 import atorrentapi.Constants;
@@ -50,14 +49,12 @@ public class GetDownload extends ActivityGroup implements Runnable
 	private int PEERS;
 	private int PIECES = 0;
 	private int COMPLETEDPIECES = 0;
-	//public int[] arr = new int[10]; //Pretty sure this isnt used 10-31-10
 	private static final int MEGABYTE = 1024 * 1024;
 	private TorrentFile t;
 	public DownloadManager dm; //10-22-10 TODO: consider making this static
 	private Button closebutton;
 	public int dlcontinue = 1; //DW 10-15-10 Was 0, let's try enabled.
 	public int n;
-	public TabHost tabHost;
 	
 	//DW added
 	private int TotalPeers = 0;
@@ -72,8 +69,6 @@ public class GetDownload extends ActivityGroup implements Runnable
 	private int pieceNum = 0;
 	private int totalPieces = 0;
 	private boolean checkingPieces = false;
-	public static GetDownload gd; //Static reference for FreeTorrent.class
-	//private ArrayList<View> torrents; //ArrayList set of views, for future multi-tasking plans
 	private Notification update_status_bar;
 	private boolean downloadOK = true; //Is it OK to download?
 
@@ -213,10 +208,42 @@ public class GetDownload extends ActivityGroup implements Runnable
 			{
 				public void onClick(View v) 
 				{
-					//DW 10-12-10 - There's no way this is the best way to handle this.
-					// Log.v("AndroidTor", "Button Clicked");
-					//DW 11-2-10 - Just realized that System.exit() was called first, negating the other changes.
-					//tabHost.setCurrentTab(0);
+					//DW 11-20-10 - If 0 pieces are downloaded, delete the files.
+					if (COMPLETEDPIECES == 0)
+					{
+						if (dm.output_files.length == 1)
+						{
+							try 
+							{
+								dm.output_files[0].close();
+								File f = new File(Constants.SAVEPATH + ((String) (dm.torrent.name.get(0))));
+								f.delete();
+							} 
+							catch (IOException e) 
+							{
+								// TODO Auto-generated catch block
+								//e.printStackTrace();
+							}
+						}
+						else
+						{
+							for (int i = 0; i < dm.output_files.length; i++) 
+							{
+								try 
+								{
+									dm.output_files[i].close();
+									File f = new File(Constants.SAVEPATH + "/" + ((String) (dm.torrent.name.get(i))));
+									f.delete();
+								} 
+								catch (IOException e) 
+								{
+									// TODO Auto-generated catch block
+									//e.printStackTrace();
+								}
+							}
+						}
+					}
+					
 					nm.cancel(0);
 					System.exit(1);
 
@@ -579,5 +606,11 @@ public class GetDownload extends ActivityGroup implements Runnable
     	AlertDialog alert = builder.create();
     	alert.show(); //Necessary?
 	}
+    
+    @Override
+    public void onNewIntent(Intent i)
+    {
+    	//Nothing!
+    }
 
 }// end class

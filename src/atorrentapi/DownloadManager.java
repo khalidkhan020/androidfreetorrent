@@ -58,7 +58,8 @@ import android.util.Log;
  * Object that manages all concurrent downloads. It chooses which piece to request
  * to which peer.
  */
-public class DownloadManager extends Activity  implements DTListener, PeerUpdateListener, ConListenerInterface {
+public class DownloadManager extends Activity  implements DTListener, PeerUpdateListener, ConListenerInterface 
+{
 	
 	//10-25-10 TODO - Implement onSaveInstanceState properly so that we don't have to re-check files if we're killed by the OS.
 	

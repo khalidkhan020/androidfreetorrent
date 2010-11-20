@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.admob.android.ads.AdView;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -24,6 +26,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -38,17 +41,24 @@ public class Browser extends ListActivity
     static final private int MENU_ITEM = Menu.FIRST;
     SharedPreferences readSettings;
 	SharedPreferences.Editor writeSettings;
+	ListView lv = null;
     
     public void onCreate(Bundle savedInstanceState) 
     {
     	super.onCreate(savedInstanceState);
+    	
+		//11-20-10 DW - Displaying ads at the bottom.
+    	if (lv == null)
+		{
+    		ListView lv = this.getListView();
+    		lv.addHeaderView(new AdView(this));
+		}
     	
     	//DW 10-13-10 - This is a shoddy hack to kill background threads when the user hits EXIT on the menu.
     	readSettings = getSharedPreferences("FreeTorrent", Activity.MODE_PRIVATE);
     	writeSettings = readSettings.edit();
     	writeSettings.putBoolean("isRunning", true);
     	writeSettings.commit();
-    
         
 	    FileFilter filter = new FileFilter() 
 	    { 
@@ -93,6 +103,8 @@ public class Browser extends ListActivity
 	            .setNeutralButton("OK", null)
 	            .show();
 	        }
+	        
+	        versionUpdateCheck();
     }
     
     //DW 10-13-10 - Get a basic menu and a couple of options in place.
@@ -174,7 +186,8 @@ public class Browser extends ListActivity
 			String filename=file.toString();
 			int istorrent=istorrent(filename);
 			//if this file isnt a torrent.. dont pass it
-			if(istorrent==1){
+			if(istorrent==1)
+			{
 			    //String myname="";
 			    cargs.add(file.getAbsolutePath());
 			    items.add("Torrent File: \n"+filename);
@@ -185,26 +198,27 @@ public class Browser extends ListActivity
 				//Let's not show every file. Just .torrents and directories.
 				if (file.isDirectory())
 				{
-			    cargs.add(file.getPath());
-				items.add(file.getPath());
+					cargs.add(file.getPath());
+					items.add(file.getPath());
 				}
 			}
 		}
-			ArrayAdapter<String> fileList = new ArrayAdapter<String>(this, R.layout.file_row, items);
-			setListAdapter(fileList);
-    }
+
+		ArrayAdapter<String> fileList = new ArrayAdapter<String>(this, R.layout.file_row, items);
+		setListAdapter(fileList);
+   }
     
    @Override
    protected void onListItemClick(ListView l, View v, int position, long id) 
    {
            int selectionRowID = (int)position;
-           if (selectionRowID==0)
+           if (selectionRowID==1) //11-20 - Used to be 0, before the ad header was moved into the layout.
            {
                fillWithRoot();
            }
            else 
            {
-               File file = new File(items.get(selectionRowID));
+               File file = new File(items.get(selectionRowID-1)); //11-20 added -1
                if (file.isDirectory())
                    fill(file.listFiles());
                else
@@ -212,7 +226,7 @@ public class Browser extends ListActivity
             	 //if this is a .torrent, open it!
                    if(selectionRowID!=0)
                    {
-    	               final String thefile=cargs.get(selectionRowID-1);
+    	               final String thefile=cargs.get(selectionRowID-2); //11-20 was -1
     	               //System.out.println("Clicked on file "+thefile);
     	               int result=istorrent(thefile);
     	               //start new intent for downloading
@@ -285,5 +299,35 @@ public class Browser extends ListActivity
         }
        return result;
    }
+   
+   private void versionUpdateCheck() 
+	{
+   	readSettings = getSharedPreferences("FreeTorrent", Activity.MODE_PRIVATE);
+   	writeSettings = readSettings.edit();
+   	
+   	//DW - TODO - Update this each version.
+   	String version = readSettings.getString("version", "0");
+   	if (!version.equals("1.9"))
+   	{
+   		Dialog d = new Dialog(this);
+   		TextView tv = new TextView(this);
+   		tv.setPadding(5,5,5,5);
+   		tv.setGravity(Gravity.LEFT);
+   		tv.setText("Version 1.9 changes:" +
+   				"\n\t * Simplified UI by removing tabs." +
+   				"\n\t * No longer hangs on 4G connections if a tracker is blacklisted on WiMax." +
+   				"\n\t * If a download is cancelled with 0 pieces completed, it will now delete the files." +
+   				"\n\n\t Thanks to all of you, for sticking with me as I develop FreeTorrent!."); 
+   		//DW TODO - Move this (and other string) to be internationalized.
+   		Window w = d.getWindow();
+   		w.setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+   		d.setTitle(R.string.help_menu);
+   		d.setContentView(tv);
+       	writeSettings.putString("version", "1.9");
+       	writeSettings.commit();
+   		d.show();
+   	}
+
+	}
    
 }
