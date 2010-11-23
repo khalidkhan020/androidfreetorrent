@@ -134,7 +134,8 @@ public class Browser extends ListActivity
     		//DW 10-13-10 - Part 2 of shoddy multithreading hack.
     		writeSettings.putBoolean("isRunning", false);
     		writeSettings.commit();
-    		finish();
+    		moveTaskToBack(true);
+    		//finish();
     		//System.exit(0);
     		break;
     	case (2): //Help
@@ -142,7 +143,6 @@ public class Browser extends ListActivity
     		break;
     	}
 		return false;
-    	
     }
     
     public void showHelp()
@@ -248,7 +248,7 @@ public class Browser extends ListActivity
     	                              //Put your code in here for a positive response
     	                        	  Intent i = new Intent();
     	         	             	  i.putExtra("torrent", thefile);
-    	         	             	  //i.setClassName("com.drakewill.freetorrent", "com.drakewill.freetorrent.GetDownload");
+    	         	             	  //11-22-10 DW - Consider making this startActivityForResult(), and handing errors there.
     	         	             	  i.setClassName("com.drakewill.freetorrent", "com.drakewill.freetorrent.Freetorrent");
     	         	             	  startActivity(i);
     	                        	   }
@@ -307,23 +307,23 @@ public class Browser extends ListActivity
    	
    	//DW - TODO - Update this each version.
    	String version = readSettings.getString("version", "0");
-   	if (!version.equals("1.9"))
+   	if (!version.equals("1.9.1"))
    	{
    		Dialog d = new Dialog(this);
    		TextView tv = new TextView(this);
    		tv.setPadding(5,5,5,5);
    		tv.setGravity(Gravity.LEFT);
-   		tv.setText("Version 1.9 changes:" +
-   				"\n\t * Simplified UI by removing tabs." +
-   				"\n\t * No longer hangs on 4G connections if a tracker is blacklisted on WiMax." +
-   				"\n\t * If a download is cancelled with 0 pieces completed, it will now delete the files." +
+   		tv.setText("Version 1.9.1 changes:" +
+   				"\n\t * Fixed the Exit button. Now hides the app, rather than displaying a black screen." +
+   				"\n\t * Attempted to remove a couple of force-closes affecting a small number of users." +
+   				"\n\t * Should now handle invalid torrent filess by alerting the user instead of crashing." +
    				"\n\n\t Thanks to all of you, for sticking with me as I develop FreeTorrent!."); 
    		//DW TODO - Move this (and other string) to be internationalized.
    		Window w = d.getWindow();
    		w.setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
    		d.setTitle(R.string.help_menu);
    		d.setContentView(tv);
-       	writeSettings.putString("version", "1.9");
+       	writeSettings.putString("version", "1.9.1");
        	writeSettings.commit();
    		d.show();
    	}

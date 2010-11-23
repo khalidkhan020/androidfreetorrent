@@ -12,6 +12,7 @@ import java.util.Random;
 import android.app.Activity;
 import android.app.ActivityGroup;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -27,7 +28,10 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.os.StatFs;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -73,7 +77,8 @@ public class GetDownload extends ActivityGroup implements Runnable
 	private boolean downloadOK = true; //Is it OK to download?
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) 
+	{
 		// need to override the saved instance so they come back here until the download is done.
 		//DW - what did he mean by this? 
 		try
@@ -160,6 +165,25 @@ public class GetDownload extends ActivityGroup implements Runnable
 
 			//DW 10-13-10 - This causes a few seconds of lag. Check into optimizing this.
 			t = tp.getTorrentFile(tp.parseTorrent(thetorrent));
+			
+			//DW 11-22-10 - Forgot to check this for null returns. Should have noticed this earlier.
+			if (t == null)
+			{
+				//11-22-10 DW - I thought I put this block into a function somewhere. Can't find it.
+				Dialog d = new Dialog(this);
+		   		TextView tv = new TextView(this);
+		   		tv.setPadding(5,5,5,5);
+		   		tv.setGravity(Gravity.LEFT);
+		   		tv.setText("Error: Invalid torrent file!");
+		   		//DW TODO - Move this (and other string) to be internationalized.
+		   		Window w = d.getWindow();
+		   		w.setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+		   		d.setTitle("Error");
+		   		d.setContentView(tv);
+		   		d.show();
+				
+				return ;
+			}
 
 			// here's where we get the data
 			total_length = t.total_length;
@@ -280,6 +304,7 @@ public class GetDownload extends ActivityGroup implements Runnable
 		//DW 10-13-10 - This runs both the creation of new files (if not present)
 		//and checking the files for existing pieces downloaded. It takes a very 
 		//long time, and doesn't give any feedback until we start downloading
+		//11-22-10 TODO: This is faster, but needs more feedback.
 		dm = new DownloadManager(t, Utils.generateID(), dlcontinue);
 		
 		//10-22-10 - Fixing a crash introduced in 1.5 by calling warnUser in DownloadManager instead of GetDownload.
@@ -333,7 +358,7 @@ public class GetDownload extends ActivityGroup implements Runnable
 						//This will be replaced with better background thread management in a future release.
 						wl.release();
 						nm.cancel(0);
-						//System.exit(0); //DW Actually, let's let it run and seed.
+						System.exit(0); //11-22-10 DW - Restored this
 					}
 					TOTAL = dm.totaldl;
 

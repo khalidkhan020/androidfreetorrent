@@ -785,14 +785,14 @@ public class DownloadManager extends Activity  implements DTListener, PeerUpdate
             } 
             catch (IOException ioe) 
             {
-                System.err.println(ioe.getMessage());
+            	Log.e("FreeTorrent", "Error in getPieceFromFiles: " + ioe.getMessage());
             }
         }
         return data;
     	}
         catch (Exception ex)
         {
-        	Log.e("FreeTorrent", ex.getMessage());
+        	Log.e("FreeTorrent", "Error in getPieceFromFiles: " + ex.getMessage());
         }
         return null; //DW 10-15-10 Shouldn't get here, ideally.
         
