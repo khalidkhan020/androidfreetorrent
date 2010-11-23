@@ -327,11 +327,14 @@ public class PeerUpdater extends Thread
                     {
                         for (int i = 0; i < peerList.size(); i++) 
                         {
-                            String peerID = new String((byte[]) ((Map) (peerList.get(i))).get("peer_id"));
-                            String ipAddress = new String((byte[]) ((Map) (peerList.get(i))).get("ip"));
-                            int port = ((Long) ((Map) (peerList.get(i))).get("port")).intValue();
-                            Peer p = new Peer(peerID, ipAddress, port);
-                            l.put(p.toString(), p);
+                        	if (peerList.contains(i))
+                        	{
+                        		String peerID = new String((byte[]) ((Map) (peerList.get(i))).get("peer_id"));
+                        		String ipAddress = new String((byte[]) ((Map) (peerList.get(i))).get("ip"));
+                        		int port = ((Long) ((Map) (peerList.get(i))).get("port")).intValue();
+                        		Peer p = new Peer(peerID, ipAddress, port);
+                        		l.put(p.toString(), p);
+                        	}
                         }
                     }
                 } 

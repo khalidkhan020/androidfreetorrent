@@ -87,6 +87,7 @@ public class Freetorrent extends Activity
         }
         
         startActivity(intent);
+        moveTaskToBack(true);
 	}
 	
 	@Override
