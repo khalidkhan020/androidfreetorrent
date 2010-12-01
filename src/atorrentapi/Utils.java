@@ -256,6 +256,9 @@ public class Utils
      */
     public static byte[] hash(byte[] hashThis) 
     {
+    	if (hashThis == null)
+    		return null;
+    	
         try 
         {
             byte[] hash = new byte[20];

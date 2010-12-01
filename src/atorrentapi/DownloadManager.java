@@ -160,6 +160,10 @@ public class DownloadManager extends Activity  implements DTListener, PeerUpdate
             do 
             {
                 tm.put(file, fileoffset);
+                
+                //DW 11-30-10 - Damn, this has been causing issues the entire time, and I don't know why.
+                //apparently, file being bigger than torrent.length is causing the issue.
+                
                 if (fileoffset + this.torrent.pieceLength - pieceoffset >= (Integer) (torrent.length.get(file)) && i != this.nbPieces - 1) 
                 {
                     pieceoffset += ((Integer) (torrent.length.get(file))).
@@ -174,7 +178,9 @@ public class DownloadManager extends Activity  implements DTListener, PeerUpdate
                     fileoffset += this.torrent.pieceLength - pieceoffset;
                     break;
                 }
-            } while (true);
+            } while (file < torrent.length.size() - 1); //DW 11-30-10 - Seeing if this fixes it. I should be able to remove the break commands too.
+            	
+            //while (true);
             
             pieceList[i] = new Piece(i, (i != this.nbPieces - 1) ? this.torrent.pieceLength : ((Long) (this.length % this.torrent.pieceLength)).intValue(),
             		16384, (byte[]) torrent.piece_hash_values_as_binary.get(i),tm);

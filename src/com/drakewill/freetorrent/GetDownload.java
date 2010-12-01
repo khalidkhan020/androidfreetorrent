@@ -589,18 +589,23 @@ public class GetDownload extends ActivityGroup implements Runnable
         		//DW 11-2-10 - The fact that this works indicates that this code is good for comparing hashes. The large number of 
         		//hashfails are likely cauesd by something else.
         		testPiece = dm.getPieceFromFiles(i);
-        		if (Utils.byteArrayToByteString(Utils.hash(testPiece)).matches(Utils.byteArrayToByteString(dm.pieceList[i].sha1)))
-        		//if (dm.testComplete(i)) 
+        		
+        		//DW 11-30-10 - This didn't trigger null results before 1.9.1. Did I change something that broke this?
+        		if (testPiece != null)
         		{
-        			Log.d("FreeTorrent", "Piece " + i  + " is already complete");
-        			dm.setComplete(i, true);
-        			dm.isComplete.set(i, true);
-                	dm.isRequested.clear(i);
-                	dm.totalcomplete++;
-                	dm.totaldl = (float) (((float) (100.0)) * ((float) (dm.isComplete.cardinality())) / ((float) (dm.nbPieces)));
-                	dm.left -= dm.pieceList[i].getLength();
-                	//DW 10-28-10 - UI Improvement.
-                	COMPLETEDPIECES++;
+        			if (Utils.byteArrayToByteString(Utils.hash(testPiece)).matches(Utils.byteArrayToByteString(dm.pieceList[i].sha1)))
+        				//	if (dm.testComplete(i)) 
+        			{
+        				Log.d("FreeTorrent", "Piece " + i  + " is already complete");
+        				dm.setComplete(i, true);
+        				dm.isComplete.set(i, true);
+        				dm.isRequested.clear(i);
+        				dm.totalcomplete++;
+        				dm.totaldl = (float) (((float) (100.0)) * ((float) (dm.isComplete.cardinality())) / ((float) (dm.nbPieces)));
+        				dm.left -= dm.pieceList[i].getLength();
+        				//	DW 10-28-10 - UI Improvement.
+        				COMPLETEDPIECES++;
+        			}
         		}
             	pieceNum = i + 1;
         		handler.sendEmptyMessage(0);

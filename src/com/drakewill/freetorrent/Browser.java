@@ -314,9 +314,8 @@ public class Browser extends ListActivity
    		tv.setPadding(5,5,5,5);
    		tv.setGravity(Gravity.LEFT);
    		tv.setText("Version 1.9.1 changes:" +
-   				"\n\t * Fixed the Exit button. Now hides the app, rather than displaying a black screen." +
-   				"\n\t * Attempted to remove a couple of force-closes affecting a small number of users." +
-   				"\n\t * Should now handle invalid torrent filess by alerting the user instead of crashing." +
+   				"\n\t * Trying to fix a crash on checking existing files." +
+   				"\n\t * Fixing another crash related to handling some torrents." +
    				"\n\n\t Thanks to all of you, for sticking with me as I develop FreeTorrent!."); 
    		//DW TODO - Move this (and other string) to be internationalized.
    		Window w = d.getWindow();
