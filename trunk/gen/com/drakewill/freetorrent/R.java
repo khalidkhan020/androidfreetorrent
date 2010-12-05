@@ -107,13 +107,40 @@ containing a value of this type.
         public static final int toast_layout=0x7f03000c;
     }
     public static final class string {
-        public static final int app_name=0x7f040001;
-        public static final int exit_menu=0x7f040004;
-        public static final int hello=0x7f040000;
-        public static final int help=0x7f040005;
-        public static final int help_menu=0x7f040006;
-        public static final int no_files=0x7f040002;
-        public static final int to_top=0x7f040003;
+        public static final int app_name=0x7f040000;
+        public static final int available=0x7f040009;
+        public static final int check_piece=0x7f040015;
+        public static final int complete=0x7f040011;
+        public static final int confirm_dl=0x7f04001c;
+        public static final int connected=0x7f04000f;
+        public static final int dl_progress=0x7f040016;
+        public static final int downloading=0x7f040010;
+        public static final int empty=0x7f04000e;
+        public static final int error=0x7f040004;
+        public static final int exit_menu=0x7f040008;
+        public static final int file_size=0x7f04000c;
+        public static final int files=0x7f040005;
+        public static final int finished_message=0x7f04001e;
+        public static final int free_space=0x7f04000d;
+        public static final int help=0x7f040021;
+        public static final int help_menu=0x7f04000b;
+        public static final int initializing=0x7f040018;
+        public static final int invalid_file=0x7f04001a;
+        public static final int no=0x7f040003;
+        public static final int no_card=0x7f040014;
+        public static final int no_file=0x7f04001f;
+        public static final int no_files=0x7f040007;
+        public static final int no_space=0x7f04001b;
+        public static final int ok=0x7f040001;
+        public static final int peers=0x7f040006;
+        public static final int pieces_done=0x7f040017;
+        public static final int sd_error=0x7f04001d;
+        public static final int stop_seeding=0x7f040012;
+        public static final int to_top=0x7f04000a;
+        public static final int torrent_file=0x7f040013;
+        public static final int torrent_started=0x7f040019;
+        public static final int update_info=0x7f040020;
+        public static final int yes=0x7f040002;
     }
     public static final class styleable {
         /** Attributes that can be used with a com_admob_android_ads_AdView.

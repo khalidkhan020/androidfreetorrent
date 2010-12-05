@@ -99,8 +99,8 @@ public class Browser extends ListActivity
 	        {
 	        	Message acceptMsg = Message.obtain();
 	        	new AlertDialog.Builder(this)
-	            .setMessage("Cannot write to your SD Card.Unmount/Re-insert your card and try again")
-	            .setNeutralButton("OK", null)
+	            .setMessage(R.string.sd_error)
+	            .setNeutralButton(R.string.ok, null)
 	            .show();
 	        }
 	        
@@ -167,16 +167,16 @@ public class Browser extends ListActivity
     		TextView tv = new TextView(this);
     		tv.setPadding(5,5,5,5);
     		tv.setGravity(Gravity.LEFT);
-    		tv.setText("Folder is empty.");
+    		tv.setText(R.string.empty);
     		//DW TODO - Move this (and other string) to be internationalized.
     		Window w = d.getWindow();
     		w.setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-    		d.setTitle("Directory Empty!");
+    		d.setTitle(R.string.empty);
     		d.setContentView(tv);
     		d.show();
     		return;
     	}
-    		Arrays.sort(files); //DW 10-11-10 Get the files in alphabetical order, not random order
+    		Arrays.sort(files); //DW 10-11-10 Gets the files in alphabetical order, not random order
 	    items = new ArrayList<String>();
 	    cargs = new ArrayList<String>();
 	    items.add(getString(R.string.to_top));
@@ -190,7 +190,7 @@ public class Browser extends ListActivity
 			{
 			    //String myname="";
 			    cargs.add(file.getAbsolutePath());
-			    items.add("Torrent File: \n"+filename);
+			    items.add(getString(R.string.torrent_file) +" \n"+filename);
 			    x++;
 			}
 			else
@@ -237,8 +237,8 @@ public class Browser extends ListActivity
     	            	   //DW 10-12-10 - What we should do is see if this is already active.
     	            	   //If so, display it's info, not restart the download as this currently does.
     	            	   Builder alert1 = new AlertDialog.Builder(this)
-    	                   .setTitle("FreeTorrent")
-    	                   .setMessage("Do you want to download this torrent?")
+    	                   .setTitle(R.string.app_name)
+    	                   .setMessage(R.string.confirm_dl)
     	                   .setPositiveButton("Yes", new DialogInterface.OnClickListener() 
     	                   {
     	                           public void onClick(DialogInterface dialog, int whichButton) 
@@ -307,22 +307,18 @@ public class Browser extends ListActivity
    	
    	//DW - TODO - Update this each version.
    	String version = readSettings.getString("version", "0");
-   	if (!version.equals("1.9.1"))
+   	if (!version.equals("1.9.3"))
    	{
    		Dialog d = new Dialog(this);
    		TextView tv = new TextView(this);
    		tv.setPadding(5,5,5,5);
    		tv.setGravity(Gravity.LEFT);
-   		tv.setText("Version 1.9.1 changes:" +
-   				"\n\t * Trying to fix a crash on checking existing files." +
-   				"\n\t * Fixing another crash related to handling some torrents." +
-   				"\n\n\t Thanks to all of you, for sticking with me as I develop FreeTorrent!."); 
-   		//DW TODO - Move this (and other string) to be internationalized.
+   		tv.setText(R.string.update_info);
    		Window w = d.getWindow();
    		w.setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
    		d.setTitle(R.string.help_menu);
    		d.setContentView(tv);
-       	writeSettings.putString("version", "1.9.1");
+       	writeSettings.putString("version", "1.9.3");
        	writeSettings.commit();
    		d.show();
    	}

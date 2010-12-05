@@ -163,8 +163,8 @@ public class DownloadManager extends Activity  implements DTListener, PeerUpdate
                 
                 //DW 11-30-10 - Damn, this has been causing issues the entire time, and I don't know why.
                 //apparently, file being bigger than torrent.length is causing the issue.
-                
-                if (fileoffset + this.torrent.pieceLength - pieceoffset >= (Integer) (torrent.length.get(file)) && i != this.nbPieces - 1) 
+                //12-5-10 Added the file >= check to avoid a crash that wasn't fixed on 11-30 after all.
+                if (file >= torrent.length.size() || fileoffset + this.torrent.pieceLength - pieceoffset >= (Integer) (torrent.length.get(file)) && i != this.nbPieces - 1) 
                 {
                     pieceoffset += ((Integer) (torrent.length.get(file))).
                             intValue() - fileoffset;
@@ -1063,5 +1063,12 @@ public class DownloadManager extends Activity  implements DTListener, PeerUpdate
                 connect(p);
             }
         }
+	}
+
+	public void restartPeerTracker() 
+	{
+		// TODO Auto-generated method stub
+		pu.end();
+		startTrackerUpdate();
 	}
 }
