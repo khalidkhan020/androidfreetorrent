@@ -153,7 +153,7 @@ public class GetDownload extends ActivityGroup implements Runnable
 			setContentView(R.layout.error);
 			
 			TextView text = (TextView) findViewById(R.id.TextView01);// header
-			text.setText("No file selected. You can download a .torrent file from the web and then open it from the SDCard, or the browsers download manager. All downloads will be in the FreeTorrent folder on your SDCard.");
+			text.setText(R.string.no_file);
 		} 
 		else 
 		{
@@ -161,7 +161,7 @@ public class GetDownload extends ActivityGroup implements Runnable
 			TextView text = (TextView) findViewById(R.id.TextView01);// header
 			TextView text2 = (TextView) findViewById(R.id.TextView02);// filename
 			closebutton = (Button) this.findViewById(R.id.Button01);
-			text.setText("File Size:");
+			text.setText(R.string.file_size);
 
 			//DW 10-13-10 - This causes a few seconds of lag. Check into optimizing this.
 			t = tp.getTorrentFile(tp.parseTorrent(thetorrent));
@@ -174,11 +174,10 @@ public class GetDownload extends ActivityGroup implements Runnable
 		   		TextView tv = new TextView(this);
 		   		tv.setPadding(5,5,5,5);
 		   		tv.setGravity(Gravity.LEFT);
-		   		tv.setText("Error: Invalid torrent file!");
-		   		//DW TODO - Move this (and other string) to be internationalized.
+		   		tv.setText(R.string.invalid_file);
 		   		Window w = d.getWindow();
 		   		w.setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-		   		d.setTitle("Error");
+		   		d.setTitle(R.string.error);
 		   		d.setContentView(tv);
 		   		d.show();
 				
@@ -198,15 +197,14 @@ public class GetDownload extends ActivityGroup implements Runnable
 				closebutton.setEnabled(false);
 				sufficientFreeSpace = false;
 				
-				toast = Toast.makeText(this, "Not enough free space on SD card", Toast.LENGTH_SHORT);
+				toast = Toast.makeText(this, R.string.no_space, Toast.LENGTH_SHORT);
 				toast.show();
 			}
 			
-			
-			text.setText("Filesize: " + megs + "Mb [Free space: " +  (freeSpace / MEGABYTE)  + "Mb]");
+			text.setText(getString(R.string.file_size) + megs + "Mb [" + getString(R.string.free_space) + " " + (freeSpace / MEGABYTE)  + "Mb]");
 			int namecount = name.size();
 
-			text2.setText("Downloading : " + namecount + " files\n \n");
+			text2.setText(getString(R.string.downloading) + " : " + namecount + " " + getString(R.string.files) + " \n \n");
 
 			mProgress = (ProgressBar) findViewById(R.id.ProgressBar);
 
@@ -217,7 +215,7 @@ public class GetDownload extends ActivityGroup implements Runnable
 				closebutton.setEnabled(false);
 				SDCardSane = false;
 				
-				toast = Toast.makeText(this, "No SD Card mounted", Toast.LENGTH_SHORT);
+				toast = Toast.makeText(this, R.string.no_card, Toast.LENGTH_SHORT);
 				toast.show();
 			}
 
@@ -283,18 +281,15 @@ public class GetDownload extends ActivityGroup implements Runnable
 
 	public void run() 
 	{
-		//DW 10-12-10 - Adding notification item. Will also show me if concurrent downloads work (They do, but aren't user accessible)
-		update_status_bar = new Notification(R.drawable.icon, "Torrent started", System.currentTimeMillis());
+		//DW 10-12-10 - Adding notification item.
+		update_status_bar = new Notification(R.drawable.icon, getString(R.string.torrent_started), System.currentTimeMillis());
 		update_status_bar.flags = update_status_bar.flags | Notification.FLAG_ONGOING_EVENT;
 		update_status_bar.contentView = new RemoteViews(this.getPackageName(), R.layout.notification_layout);
-		//int notification_number = 0;
-		//Intent intent = new Intent(this, GetDownload.class);
-		Intent intent = new Intent(this, Freetorrent.class); //Show the maintabs view, not just GetDownload
+		Intent intent = new Intent(this, Freetorrent.class);
 		PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
 		update_status_bar.contentIntent = pIntent;
 		nm.notify(0, update_status_bar);
 		boolean Finished = false; //DW 11-2-10
-		
 		
 		//Power Management
 		final PowerManager.WakeLock wl = PM.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "FreeTorrent");
@@ -344,6 +339,7 @@ public class GetDownload extends ActivityGroup implements Runnable
 
 		byte[] b = new byte[0];
 		int x = 0;
+		int stallCount = 0;
 		while (true)  
 		{
 			try 
@@ -371,7 +367,7 @@ public class GetDownload extends ActivityGroup implements Runnable
 					percentInitialized = dm.percentInitialized;
 					
 					update_status_bar.contentView.setProgressBar(R.id.status_progress, 100, (int) TOTAL, false);
-					update_status_bar.contentView.setTextViewText(R.id.status_text, "Download progress: " + TOTAL + "%");
+					update_status_bar.contentView.setTextViewText(R.id.status_text, getString(R.string.dl_progress) + ": " + TOTAL + "%");
 					//DW 11-2-10 - Found why a finished torrent loops the alert. Fixed.
 					if (!Finished) 
 						nm.notify(0, update_status_bar);
@@ -385,6 +381,17 @@ public class GetDownload extends ActivityGroup implements Runnable
 						b.notifyAll();
 						x = 0;
 					}
+					
+					if (PEERS == 0)
+					{
+						stallCount++;
+						if (stallCount == 10) //30 seconds of nothing.
+						{
+							dm.restartPeerTracker();
+							stallCount = 0;
+						}
+					}
+					
 					x++;
 				}
 			} 
@@ -415,52 +422,48 @@ public class GetDownload extends ActivityGroup implements Runnable
 		{
 
 			TextView pieces = (TextView) findViewById(R.id.pieces);
-			pieces.setText(COMPLETEDPIECES + " pieces done out of " + PIECES);
-			//pieces.setText(dm.totalcomplete + " pieces done out of " + PIECES);
+			pieces.setText(COMPLETEDPIECES + " " + getString(R.string.pieces_done) + " " +PIECES);
+
 
 			TextView warning = (TextView) findViewById(R.id.TextView06);
-			warning.setText("Now downloading : " + TOTAL + "%" );
-			// + " [" + (int) dm.totalrate + "kbps]" - This wasn't quite right.
+			warning.setText(getString(R.string.downloading) + " : " + TOTAL + "%" );
 			
 			//DW 10-16-10 - Change button text when complete
 			if (Seeding)
 			{
 				Button cancelButton = (Button)findViewById(R.id.Button01);
-				cancelButton.setText("Stop Seeding");
+				cancelButton.setText(R.string.stop_seeding);
 			}
 			
-			//DW 10-14-10 TODO - This is the best entry to change to handle file initialization
 			TextView text3 = (TextView) findViewById(R.id.TextView03); // file
 			if (initializingFiles)
 			{
-				text3.setText("Initializing file " + filesInitialized + " (" + percentInitialized + "%)");
+				text3.setText(getString(R.string.initializing) + " " + filesInitialized + " (" + percentInitialized + "%)");
 			}
 			else 
 			if (checkingPieces)
 			{
-				//int per = (pieceNum / totalPieces) * 100;
-				text3.setText("Checking piece " + pieceNum + " of " + totalPieces);
+				text3.setText(getString(R.string.check_piece) + " " + pieceNum + " / " + totalPieces);
 			}
 			else
 			{
 				mProgress.setProgress((int) TOTAL);
-					text3.setText("Connected to " + PEERS + " peers (" + TotalPeers + " available)");
+				text3.setText(getString(R.string.connected) + " " + PEERS + " " + getString(R.string.peers) + " (" + TotalPeers + " " + getString(R.string.available) + ")");
 			}
-
 		}
 	};
 
 	public void imdone() 
 	{
 		int icon = R.drawable.icon;
-		CharSequence tickerText = "Torrent complete";
+		CharSequence tickerText = getText(R.string.complete);
 		long when = System.currentTimeMillis();
 
 		update_status_bar = new Notification(icon, tickerText, when);
 
 		Context context = getApplicationContext();
-		CharSequence contentTitle = "Torrent completed";
-		CharSequence contentText = "Your torrent is done. Please check the /FreeTorrent folder on your SD card!";
+		CharSequence contentTitle = getText(R.string.complete);
+		CharSequence contentText = getText(R.string.finished_message);
 		Intent notificationIntent = new Intent(this, Freetorrent.class);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,notificationIntent, 0);
 		update_status_bar.setLatestEventInfo(context, contentTitle, contentText,	contentIntent);
@@ -620,13 +623,15 @@ public class GetDownload extends ActivityGroup implements Runnable
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
     	builder.setMessage(string)
     	       .setCancelable(false)
-    	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+    	       .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() 
+    	       {
     	           public void onClick(DialogInterface dialog, int id) {
     	                //contine downloading the torrent
     	        	   downloadOK = true;
     	           }
     	       })
-    	       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+    	       .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() 
+    	       {
     	           public void onClick(DialogInterface dialog, int id) {
     	        	   //cancel this download.
     	        	   downloadOK = false;

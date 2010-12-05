@@ -1,13 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, Freetorrent!</string>
-    <string name="app_name">FreeTorrent</string>
+<string name="app_name">FreeTorrent</string>
+<string name="ok">OK</string>
+<string name="yes">Yes</string>
+<string name="no">No</string>
+<string name="error">Error</string>
+<string name="files">files</string>
+<string name="peers">peers</string>
 <string name="no_files">Empty</string>
-<string name="to_top">[Up a level]</string>
 <string name="exit_menu">Exit</string>
-<string name="help">\t Found a bug? Please submit a bug report (drakewill@gmail.com) so I can fix it. It can take a couple days for user comments to appear on the Market, email will get results faster. \n\n
-\t For best results, download torrents one at a time, and at times where you will not use your phone for other tasks. A big, busy torrent can use up a lot of your phone\'s processing power and battery very quickly.\n\n
-\t This program is distributed under the GNU GPL 2.0. Source code is available at the developer\'s website. \n\n
-\t All icons appearing in this app are used under a Creative Commons license.</string>
+<string name="available">available</string>
+<string name="to_top">[Up a level]</string>
 <string name="help_menu">Quick Help</string>
+<string name="file_size">File Size:</string>
+<string name="free_space">Free space</string>
+<string name="empty">Folder is empty.</string>
+<string name="connected">Connected to</string>
+<string name="downloading">Downloading</string>
+<string name="complete">Torrent complete</string>
+<string name="stop_seeding">Stop Seeding</string>
+<string name="torrent_file">Torrent File:</string>
+<string name="no_card">No SD Card mounted!</string>
+<string name="check_piece">Checking piece </string>
+<string name="dl_progress">Download progress</string>
+<string name="pieces_done">pieces done out of</string>
+<string name="initializing">Initializing file</string>
+<string name="torrent_started">Torrent started</string>
+<string name="invalid_file">Error: Invalid torrent file!</string>
+<string name="no_space">Not enough free space on SD card</string>
+<string name="confirm_dl">Do you want to download this torrent?</string>
+<string name="sd_error">Cannot write to your SD Card.Unmount/Re-insert your card and try again</string>
+<string name="finished_message">Your torrent is done. Please check the /FreeTorrent folder on your SD card!</string>
+<string name="no_file">No file selected. You can download a .torrent file from the web and then open it from the SDCard, or the browsers download manager. All downloads will be in the FreeTorrent folder on your SDCard.</string>
+<string name="update_info">Version 1.9.3 changes: \n\t * Re-implemented stall correction code that disappeared from 1.8. \n\t * Fixing a crash related to handling some torrents. (Again.) \n\t * Implemented changes to support translation. Nothing visible should have changed. \n\n\t Thanks to all of you, for sticking with me as I develop FreeTorrent!. </string>
+<string name="help">\t Found a bug? Please submit a bug report (drakewill@gmail.com) so I can fix it. It can take a couple days for user comments to appear on the Market, email will get results faster. \n\n
+\t To start downloading a torrent, navigate to the .torrent file on your SD card and click on it. \n\n\t For best results, download torrents one at a time, and at times where you will not use your phone for other tasks. A big, busy torrent can use up a lot of your phone\'s processing power and battery very quickly.\n\n
+\t This program is distributed under the GNU GPL 2.0. Source code is available at http://code.google.com/p/androidfreetorrent/ \n\n
+\t All icons appearing in this app are used and distributed under a Creative Commons ShareAlike license.</string>
 </resources>
