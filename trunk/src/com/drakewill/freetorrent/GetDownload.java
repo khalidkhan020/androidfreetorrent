@@ -47,6 +47,11 @@ import atorrentapi.Utils;
 //DW 10-12-10 - Used to be an Activity
 public class GetDownload extends ActivityGroup implements Runnable 
 {
+	
+	//DW 12-9-10 TODO: Check for connection changes (WiFi/WiMax/3G) and enable/disable communications as appropriate.
+	//TODO: Calculate and display a correct transfer rate.
+	//TODO: Fix hashfails. Either track down why so many fail or force it to only request each chunk of a piece once. [new array for requested]
+	
 	private ProgressBar mProgress;
 	private RandomAccessFile[] output_files;
 	private float TOTAL = 0;
@@ -55,7 +60,7 @@ public class GetDownload extends ActivityGroup implements Runnable
 	private int COMPLETEDPIECES = 0;
 	private static final int MEGABYTE = 1024 * 1024;
 	private TorrentFile t;
-	public DownloadManager dm; //10-22-10 TODO: consider making this static
+	public DownloadManager dm;
 	private Button closebutton;
 	public int dlcontinue = 1; //DW 10-15-10 Was 0, let's try enabled.
 	public int n;
@@ -645,7 +650,10 @@ public class GetDownload extends ActivityGroup implements Runnable
     @Override
     public void onNewIntent(Intent i)
     {
-    	//Nothing!
+    	if (i.getBooleanExtra("ConnectionPresent", true) == false)
+    		dm.stopTrackerUpdate();
+    	else
+    		dm.startTrackerUpdate();
     }
 
 }// end class

@@ -26,7 +26,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -307,7 +306,7 @@ public class Browser extends ListActivity
    	
    	//DW - TODO - Update this each version.
    	String version = readSettings.getString("version", "0");
-   	if (!version.equals("1.9.3"))
+   	if (!version.equals("1.9.4"))
    	{
    		Dialog d = new Dialog(this);
    		TextView tv = new TextView(this);
@@ -318,7 +317,7 @@ public class Browser extends ListActivity
    		w.setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
    		d.setTitle(R.string.help_menu);
    		d.setContentView(tv);
-       	writeSettings.putString("version", "1.9.3");
+       	writeSettings.putString("version", "1.9.4");
        	writeSettings.commit();
    		d.show();
    	}
