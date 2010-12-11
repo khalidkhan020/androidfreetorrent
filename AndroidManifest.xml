@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.drakewill.freetorrent"
-      android:versionCode="14" 
-      android:versionName="1.9.3">
+      android:versionCode="15" 
+      android:versionName="1.9.4">
     <application android:icon="@drawable/icon" 
     	android:label="@string/app_name" 
     	android:persistent="true" 
     	android:debuggable="false">
-<!--    	    	android:theme="@android:style/Theme.NoTitleBar" -->
         <activity android:name=".Freetorrent"
                   android:label="@string/app_name"
                   android:launchMode="singleInstance">
-                 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -25,7 +23,6 @@
             </intent-filter> 
         </activity>
         
-        <!--        		android:launchMode="singleInstance"-->
          <activity android:name=".GetDownload"
         		android:configChanges="orientation|keyboardHidden"
         		android:launchMode="singleInstance"
@@ -40,7 +37,6 @@
                 <action android:name="android.intent.action.MEDIA_UNMOUNTABLE" />
                 <action android:name=".GetDownload" />
            </intent-filter>
-        
          </activity>
 
          
@@ -51,8 +47,13 @@
             <intent-filter>
                 <action android:name=".Browser" />
            </intent-filter>
-        
          </activity>
+         
+         <receiver android:name=".Receiver">
+         	<intent-filter>
+         		<action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+         	</intent-filter>
+         </receiver>
 
 <meta-data android:value="a14cb5e2ca5e9b1" android:name="ADMOB_PUBLISHER_ID" />
     </application>

@@ -29,7 +29,7 @@
 		android:id="@+id/TextView03" 
 		android:layout_height="wrap_content" 
 		android:layout_width="fill_parent"
-		android:text="Initializing files (This may take several minutes)...." 
+		android:text="@string/initializing" 
 		android:layout_below="@id/TextView01" />
 	<TextView 
 		android:id="@+id/TextView02" 
@@ -42,25 +42,9 @@
 		android:layout_height="wrap_content" 
 		android:bufferType="normal" 
 		android:cursorVisible="true" 
-		android:text="Cancel Download" 
+		android:text="@string/cancel" 
 		android:layout_width="fill_parent"
 		android:layout_below="@id/TextView02" />
-<!--	<TextView -->
-<!--		android:id="@+id/TextView04" -->
-<!--		android:layout_width="fill_parent"-->
-<!--		android:layout_height="wrap_content" -->
-<!--		android:text=" Initializing  "-->
-<!--		android:layout_below="@id/Button01"/>-->
-<!--	<ProgressBar -->
-<!--		style="?android:attr/progressBarStyleHorizontal" -->
-<!--		android:id="@+id/Rate"  -->
-<!--		android:fadingEdge="horizontal" -->
-<!--		android:max="10" -->
-<!--		android:visible="false"-->
-<!--		android:layout_height="wrap_content" -->
-<!--		android:layout_width="fill_parent"-->
-<!--		android:layout_below="@id/TextView04">-->
-<!--	</ProgressBar>-->
 	<TextView 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" 
@@ -71,7 +55,7 @@
 		android:id="@+id/TextView06" 
 		android:layout_width="fill_parent" 
 		android:layout_height="wrap_content" 
-		android:text="Connecting..."
+		android:text="@string/connecting"
 		android:layout_below="@id/pieces" />
 	<com.admob.android.ads.AdView     
         android:id="@+id/ad" 

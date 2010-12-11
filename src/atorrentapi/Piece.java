@@ -168,6 +168,9 @@ public class Piece
     	for(Iterator it = this.pieceBlock.keySet().iterator(); it.hasNext();)
        	{
     		tempdata = this.pieceBlock.get(it.next());
+    		//DW 12-11-10 - Adding in some debugging info, hopefully to track down why hashfails are so common.
+    		Log.d("FreeTorrent", "Piece " + index + " block " + offset + " length " + tempdata.length);
+    		
     		System.arraycopy(tempdata, 0, data, offset, tempdata.length);
     		offset += tempdata.length;
        	}
@@ -186,8 +189,8 @@ public class Piece
     	
     	//DW 11-2-10 - Awfully large number of hashfails in the latest version.
     	//Trying to figure out why.
-    	Log.d("FreeTorrent", "Downloaded hash for piece " + index + " is " + dlHash);
-    	Log.d("FreeTorrent", "Tracker's hash for piece " + index + " is " + torrentHash);
+    	//Log.d("FreeTorrent", "Downloaded hash for piece " + index + " is " + dlHash);
+    	//Log.d("FreeTorrent", "Tracker's hash for piece " + index + " is " + torrentHash);
         
     	return dlHash.matches(torrentHash); 
     }
